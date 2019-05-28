@@ -1,3 +1,4 @@
+# Example on Safaricom Site
 from M2Crypto import RSA, X509
 from base64 import b64encode
 
@@ -5,7 +6,7 @@ INITIATOR_PASS  = "402reset"
 CERTIFICATE_FILE = "sandbox.cer"
 
 def encryptInitiatorPassword():
-    cert_file = open(CERTIFICATE_FILE, 'r')
+    cert_file = open(CERTIFICATE_FILE, 'rb')
     cert_data = cert_file.read() #read certificate file
     cert_file.close()
 

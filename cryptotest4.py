@@ -1,13 +1,12 @@
-# Encrypt each letter and append to cipher
+# Example on Safaricom Site
 from M2Crypto import RSA, X509
 from base64 import b64encode
 
 INITIATOR_PASS  = "402reset"
 CERTIFICATE_FILE = "sandbox.cer"
-INITIATOR_PASS_ARRAY = [elem.encode("latin_1") for elem in INITIATOR_PASS]
 
 def encryptInitiatorPassword():
-    cert_file = open(CERTIFICATE_FILE, 'r')
+    cert_file = open(CERTIFICATE_FILE, 'rb')
     cert_data = cert_file.read() #read certificate file
     cert_file.close()
 
@@ -15,12 +14,7 @@ def encryptInitiatorPassword():
     #pub_key = X509.load_cert_string(cert_data)
     pub_key = cert.get_pubkey()
     rsa_key = pub_key.get_rsa()
-    cipher = None
-    for char in INITIATOR_PASS_ARRAY:
-        if cipher is None:
-            cipher = rsa_key.public_encrypt(char, RSA.pkcs1_padding)
-        else:
-            cipher += rsa_key.public_encrypt(char, RSA.pkcs1_padding)
+    cipher = rsa_key.public_encrypt(b64encode(INITIATOR_PASS.encode("latin_1")), RSA.pkcs1_padding)
     return b64encode(cipher).decode("latin_1")
 
 print(encryptInitiatorPassword())
